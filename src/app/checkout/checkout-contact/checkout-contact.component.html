@@ -1,0 +1,28 @@
+<div class="mt-4" *ngIf="checkoutForm" [formGroup]="checkoutForm">
+  <div class="d-flex justify-content-between align-items center">
+    <h4>Контактні дані</h4>
+    <button class="btn btn-outline-success mb-3" *ngIf="accountService.currentUser$ | async as user" (click)="getContactDataValuesByClick()">
+      Використати дані з вашого профілю
+    </button>
+  </div>
+  <div class="row" formGroupName="contactForm">
+    <div class="form col-6">
+      <app-text-input label="Ваше ім'я" formControlName="contactName"></app-text-input>
+    </div>
+    <div class="form col-6">
+      <app-text-input label="Пошта" formControlName="contactEmail"></app-text-input>
+    </div>
+    <div class="form col-6">
+      <app-text-input label="Телефон" formControlName="contactPhone"></app-text-input>
+    </div>
+  </div>
+
+
+<div class="d-flex justify-content-between flex-row mb-5">
+  <button class="btn btn-outline-primary" routerLink="/basket">
+    <i class="fa fa-angle-left"></i> Назад до кошика
+  </button>
+  <button class="btn btn-primary" cdkStepperNext>
+    Перейти до доставки <i class="fa fa-angle-right"></i>
+  </button>
+</div>

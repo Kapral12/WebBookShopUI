@@ -1,0 +1,44 @@
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: white;
+}
+
+.nav-pills .nav-link {
+  text-decoration: none;
+  color: #777777;
+  position: relative;
+
+  &.active {
+    color: #dbb695;
+    &:before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      transform: scaleX(1);
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #dbb695;
+      transform-origin: bottom left;
+      transition: transform 0.25s ease-out;
+    }
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #dbb695;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  &:hover:before {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+}

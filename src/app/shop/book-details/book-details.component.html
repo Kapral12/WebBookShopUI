@@ -1,0 +1,239 @@
+<div class="container"  *ngIf="singleBook">
+  <div class="row">
+    <section class="col-3 mt-4">
+      <img src="{{singleBook.imageURL}}" alt="singleBook.title" class="w-100">
+    </section>
+
+    <section class="col-8 mt-4">
+      <h2>{{singleBook.title}}</h2>
+      <h5 class="text-muted"  *ngFor="let author of singleBook.author">Автор: {{author.fullName}}</h5>
+      <div class="p-ratings">
+        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+        <span class="ml-3"> 5.0</span>
+      </div>
+
+
+      <p style="font-size: 2em">{{singleBook.price}}₴</p>
+      <h5 class="text-secondary mb3" *ngIf="quantityInBasket > 0">
+        У вас вже {{quantityInBasket}} одиниць цього товару в кошику
+      </h5>
+      <div class="d-flex justify-content-start align-items-center">
+        <i
+          (click)="decrementQuantity()"
+          class="fa fa-minus-circle mx-2"
+          style="cursor: pointer; font-size: 2em;"></i>
+        <span class="font-weight-bold" style="font-size: 1.5em;">
+          {{quantity}}
+        </span>
+        <i
+          (click)="incrementQuantity()"
+          class="fa fa-plus-circle mx-2"
+          style="cursor: pointer; font-size: 2em;"></i>
+        <button
+          class="btn btn-primary ms-2"
+          (click)="updateBasket()"
+          [disabled]="quantity === quantityInBasket || quantity < 0"
+        >Додати до кошика</button>
+      </div>
+      <div class="mt-4">
+        <h5>Жанри</h5>
+        <mat-chip-listbox class="mb-3">
+          <mat-chip *ngFor="let genre of singleBook.genre">
+            {{genre.name}}
+          </mat-chip>
+        </mat-chip-listbox>
+        <h5>Видавництво</h5>
+          <mat-chip class="mb-3">
+            {{singleBook.publisher.name}}
+          </mat-chip>
+        <h5>Опис</h5>
+        <p>{{singleBook.description}}</p>
+        <hr>
+        <div>
+          <h5>Про автора:</h5>
+          <div class="d-flex flex-start w-100"  *ngFor="let author of singleBook.author">
+            <img class="shadow-1-strong me-3"
+            src="https://localhost:7274/{{author.imageURL}}"  alt="avatar" style="max-width: 500px; max-height: 300px; border-radius: 30px;"/>
+            <div class="w-100">
+              <p class="mb-2">{{author.fullName}}</p>
+              <p class="mb-0">{{author.description}}</p>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <h5 class="mt-4 mb-3">Характеристики книги</h5>
+        <div class="row mb-3 w-100">
+          <div>
+            <div class="row align-items-center">
+              <div class="col">
+                <p class="fw-bold mb-0">Автор</p>
+              </div>
+              <div class="col text-end">
+                <p class="mb-0" *ngFor="let author of singleBook.author">{{author.fullName}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row align-items-center">
+              <div class="col">
+                <p class="fw-bold mb-0">Формат</p>
+              </div>
+              <div class="col text-end">
+                <p class="mb-0">{{singleBook.format}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row align-items-center">
+              <div class="col">
+                <p class="fw-bold mb-0">Кількість сторінок</p>
+              </div>
+              <div class="col text-end">
+                <p class="mb-0">{{singleBook.page}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row align-items-center">
+              <div class="col">
+                <p class="fw-bold mb-0">Рік видання</p>
+              </div>
+              <div class="col text-end">
+                <p class="mb-0">{{singleBook.releaseYear}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row align-items-center">
+              <div class="col">
+                <p class="fw-bold mb-0">Серія книг</p>
+              </div>
+              <div class="col text-end">
+                <p class="mb-0">{{singleBook.bookSeries.name}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row align-items-center">
+              <div class="col">
+                <p class="fw-bold mb-0">Жанри</p>
+              </div>
+              <div class="col text-end">
+                <span *ngFor="let genre of singleBook.genre" class="mb-0">{{genre.name}} </span>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="col">
+            <hr class="d-sm-none">
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <app-recommedations></app-recommedations>
+
+  <section class="col-12" >
+    <div class="container my-1 text-dark" >
+      <div class="row d-flex justify-content-center" >
+        <div class="col-md-12 col-lg-12">
+          <div class="card">
+            <div class="card-body p-4" style="background-color: #eeebd9;">
+              <div class="d-flex flex-start w-100">
+                <img class="rounded-circle shadow-1-strong me-3"
+                  src="https://rare-gallery.com/uploads/posts/1208781-anime-anime-girls-dark-hair-science-books.jpg" alt="avatar" width="65"
+                  height="65" />
+                <div class="w-100">
+                  <h5>Ви можете залишити свій відгук про цю книгу, ми будем дуже раді дізнатися вашу думку!</h5>
+                  <div class="p-ratings">
+                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                    <span class="ml-3"> 5.0</span>
+                  </div>
+                  <div class="form-outline">
+                    <textarea class="form-control" id="textAreaExample" rows="4"></textarea>
+                    <div class="d-flex justify-content-between mt-3">
+                      <label class="form-label" for="textAreaExample">Що напишемо?</label>
+                      <button type="button" class="btn btn-primary">
+                        Відправити
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="col-12 mb-5" >
+      <div class="container" >
+        <div class="row d-flex justify-content-center" >
+          <div class="col-md-12 col-lg-12" >
+            <div class="card text-dark" style="background-color: #eeebd9;">
+              <div class="card-body p-4">
+                <h4 class="mb-0">Відгуки</h4>
+                <p class="fw-light mb-4 pb-2">Відгуки що залишили користувачі</p>
+                <div class="d-flex flex-start">
+                  <img class="rounded-circle shadow-1-strong me-3"
+                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp" alt="avatar" width="60"
+                    height="60" />
+                  <div>
+                    <h6 class="fw-bold mb-1">Maggie Marsh</h6>
+                    <div class="d-flex align-items-center">
+                      <p class="mb-0">
+                        March 07, 2021
+                      </p>
+                      <a href="#!" class="link-muted"><i class="fa fa-pencil ms-2"></i></a>
+                      <a href="#!" class="text-danger"><i class="fa fa-trash ms-2"></i></a>
+                    </div>
+                    <div class="mb-1">
+                      <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                    </div>
+                    <p class="mb-0">
+                      Книга, яку я тільки що прочитав, вразила мене своєю оригінальністю та нетиповим сюжетом.
+                      Автор зумів створити унікальний світ, де час летить зовсім інакше, ніж у нашому.
+                      Герої цієї книги пройшли довгий шлях, повний випробувань та пригод, що не залишить байдужим навіть найвимогливіших читачів. Рекомендую!
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="my-0" />
+
+              <div class="card-body p-4">
+                <div class="d-flex flex-start">
+                  <img class="rounded-circle shadow-1-strong me-3"
+                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(26).webp" alt="avatar" width="60"
+                    height="60" />
+                  <div>
+                    <h6 class="fw-bold mb-1">Lara Stewart</h6>
+                    <div class="d-flex align-items-center">
+                      <p class="mb-0">
+                        March 15, 2021
+                      </p>
+                      <a href="#!" class="link-muted"><i class="fa fa-pencil ms-2"></i></a>
+                      <a href="#!" class="text-danger"><i class="fa fa-trash ms-2"></i></a>
+                    </div>
+                    <div class="mb-1">
+                      <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                    </div>
+                    <p class="mb-0">
+                      Ця книга просто захоплює з перших сторінок. Автор майстерно використовує мову та здатний передати почуття та емоції героїв,
+                      що змушує читача залишатися в напруженні до самого кінця. Рекомендую всім, хто любить якісну літературу.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="my-0" style="height: 1px;" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </section>
+</div>
+
+

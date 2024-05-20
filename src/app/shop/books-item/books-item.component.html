@@ -1,0 +1,15 @@
+<div class="card h-100" *ngIf="book">
+  <div class="image position-relative" style="cursor: pointer;">
+    <img class="rounded mx-auto d-block" src="{{book.imageURL}}" alt="{{book.title}}">
+    <div class="d-flex align-items-center justify-content-center hover-overlay flex-column">
+      <button (click)="addItemToBasket()" class="btn btn-primary mb-2">Додати до кошика <i class="fa fa-shopping-cart"></i>  </button>
+      <button routerLink="/shop/{{book.id}}" class="btn btn-primary">Подивитись</button>
+    </div>
+  </div>
+
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title">{{book.title}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Автор: {{book.authors}}</h6>
+    <span class="mb-2 price">{{book.price}} ₴</span>
+  </div>
+</div>

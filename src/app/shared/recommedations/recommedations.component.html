@@ -1,0 +1,87 @@
+<ng-container *ngIf="(accountService.currentUser$ | async) === null">
+  <div class="row">
+    <section class="col-12 mt-4">
+      <hr>
+      <h5>Кращі продажі:</h5>
+      <hr>
+      <div class="books-slider mb-5">
+        <carousel [itemsPerSlide]="itemsPerSlide"
+              [singleSlideOffset]="singleSlideOffset"
+              [startFromIndex]="6"
+              [interval]="0"
+              [noWrap]="noWrap">
+              <slide *ngFor="let book of recomedantionsBestSells; let index=index">
+                <a routerLink="/shop/{{book.id}}" class="slide"><img [src]="book.imageURL" alt="image slide"></a>
+              </slide>
+        </carousel>
+      </div>
+      <h5>Вас можуть зацікавити:</h5>
+      <hr>
+      <div class="books-slider mb-5">
+        <carousel [itemsPerSlide]="itemsPerSlide"
+              [singleSlideOffset]="singleSlideOffset"
+              [startFromIndex]="6"
+              [interval]="0"
+              [noWrap]="noWrap">
+          <slide *ngFor="let book of recommedantionsRandom; let index=index">
+            <a routerLink="/shop/{{book.id}}" class="slide"><img [src]="book.imageURL" alt="image slide"></a>
+          </slide>
+        </carousel>
+      </div>
+    </section>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="(accountService.currentUser$ | async) != null">
+  <div class="row">
+    <section class="col-12 mt-4">
+      <hr>
+      <ng-container *ngIf="recommedationsByOrders.length > 0; else emptyRecommendations">
+      <h5>Схожі книги на ті що ви купували:</h5>
+      <hr>
+      <div class="books-slider mb-5">
+        <carousel [itemsPerSlide]="itemsPerSlide"
+              [singleSlideOffset]="singleSlideOffset"
+              [startFromIndex]="6"
+              [interval]="0"
+              [noWrap]="noWrap">                <slide *ngFor="let book of recommedationsByOrders; let index=index">
+                  <a routerLink="/shop/{{book.id}}" class="slide"><img [src]="book.imageURL" alt="image slide"></a>
+                </slide>
+        </carousel>
+      </div>
+     </ng-container>
+
+      <!-- <h5>Вас можуть зацікавити:</h5>
+      <hr>
+      <div class="books-slider mb-5">
+        <carousel [itemsPerSlide]="itemsPerSlide"
+              [singleSlideOffset]="singleSlideOffset"
+              [startFromIndex]="6"
+              [interval]="0"
+              [noWrap]="noWrap">
+          <slide *ngFor="let book of recommedationsByAge; let index=index">
+            <a routerLink="/shop/{{book.id}}" class="slide"><img [src]="book.imageURL" alt="image slide"></a>
+          </slide>
+        </carousel>
+      </div> -->
+
+      <ng-template #emptyRecommendations>
+        <h5>Кращі продажі:</h5>
+        <hr>
+        <div class="books-slider mb-5">
+          <carousel [itemsPerSlide]="itemsPerSlide"
+                [singleSlideOffset]="singleSlideOffset"
+                [startFromIndex]="6"
+                [interval]="0"
+                [noWrap]="noWrap">
+                <slide *ngFor="let book of recomedantionsBestSells; let index=index">
+                  <a routerLink="/shop/{{book.id}}" class="slide"><img [src]="book.imageURL" alt="image slide"></a>
+                </slide>
+          </carousel>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+
+</ng-container>
+

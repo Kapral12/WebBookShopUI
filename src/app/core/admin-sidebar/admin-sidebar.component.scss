@@ -1,0 +1,30 @@
+h3{
+  color: #707793;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5em;
+}
+
+.menu {
+  margin: 0 - 1rem;
+}
+
+.menu .menu-item{
+  display: block;
+  padding: 1em;
+  color: #777777;
+  text-decoration: none;
+  transition: 0.2s linear;
+  font-size: 1.2rem;
+
+  &.active {
+    color: #dbb695;
+    border-right: 5px solid #dbb695;
+    font-size: 1.4rem;
+  }
+}
+
+.menu .menu-item:hover {
+  color: #dbb695;
+  border-right: 5px solid #dbb695;
+}

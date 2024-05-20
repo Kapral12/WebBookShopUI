@@ -1,0 +1,55 @@
+<div class="col-md cart" *ngIf="(basketService.basketSource$ | async) as basket">
+  <div *ngIf="isBasket" class="title">
+      <div class="row">
+          <div class="col"><h4><b>Кошик</b></h4></div>
+      </div>
+  </div>
+  <table class="table main align-items-center">
+    <thead class="bg-light">
+      <tr>
+        <th><div class="py-2">Товар</div></th>
+        <th><div class="py-2">Назва</div></th>
+        <th><div class="py-2">Ціна</div></th>
+        <th [class.text-center]="!isBasket" ><div class="py-2">Кількість</div></th>
+        <th><div class="py-2">Всьго</div></th>
+        <th *ngIf="isBasket"><div class="py-2"></div></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of basket.items">
+        <td>
+          <img routerLink="/shop/{{item.id}}" style="cursor: pointer;" class="img-in-basket" src="{{item.imageURL}}">
+        </td>
+        <td>
+          <div class="col">
+            <div class="row" routerLink="/shop/{{item.id}}" style="cursor: pointer;"> {{item.productName}}</div>
+            <div class="row text-muted">Автор: {{item.authors}}</div>
+        </div>
+        </td>
+        <td class="align-middle">
+          <strong>{{item.price}} ₴</strong>
+        </td>
+        <td class="align-middle">
+          <div class="d-flex align-items-center"
+            [class.justify-content-center]="!isBasket">
+            <i *ngIf="isBasket" class="fa fa-minus-circle me-2"
+            style="cursor: pointer; font-size: 1.5em;"
+            (click)="removeBasketItem(item.id, 1)"></i>
+            <strong style="font-size: 1.5em">{{item.quantity}}</strong>
+            <i *ngIf="isBasket" class="fa fa-plus-circle mx-2"
+            style="cursor: pointer; font-size: 1.5em;"
+            (click)="addBasketItem(item)"></i>
+          </div>
+        </td>
+        <td class="align-middle">
+          <strong>{{item.price * item.quantity}}₴</strong>
+        </td>
+        <td class="align-middle" *ngIf="isBasket">
+          <span class="close" (click)="removeBasketItem(item.id, item.quantity)"
+          style="font-size: 1em; cursor: pointer;">&#10005;</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="isBasket" class="back-to-shop"><a routerLink="/shop">&leftarrow;</a><span class="text-muted">Повернутися до покупок</span></div>
+</div>

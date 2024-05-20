@@ -1,0 +1,24 @@
+<div class="container mt-5">
+  <div class="class row">
+    <div class="card">
+      <app-stepper [linearModeSelected]="false" #appStepper>
+        <cdk-step [label]="'Контакті дані'" [completed]="checkoutForm.get('contactForm')?.valid">
+          <app-checkout-contact [checkoutForm]="checkoutForm"></app-checkout-contact>
+        </cdk-step>
+        <cdk-step [label]="'Доставка'"  [completed]="checkoutForm.get('deliveryForm')?.valid">
+          <app-delivery [checkoutForm]="checkoutForm"></app-delivery>
+        </cdk-step>
+        <cdk-step [label]="'Перевірка'">
+          <app-review [checkoutForm]="checkoutForm" ></app-review>
+        </cdk-step>
+      </app-stepper>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div class="col-md cart">
+         <app-order-totals></app-order-totals>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

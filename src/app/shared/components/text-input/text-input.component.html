@@ -1,0 +1,18 @@
+<div class="form-floating mb-3">
+  <input
+      type={{type}}
+      class="form-control"
+      [formControl]="control"
+      id="floatingInput"
+      placeholder="{{label}}"
+      [ngClass]="(control.touched) ? control.invalid ? 'is-invalid': 'is valid': null"/>
+  <label for="floatingInput">{{label}}</label>
+  <div *ngIf="control.status === 'PENDING'"  class="fa fa-spinner fa-spin loader"></div>
+  <div *ngIf="control.errors?.['required']" class="invalid-feedback">Поле {{label}} обов'язкове</div>
+  <div *ngIf="control.errors?.['maxlength']" class="invalid-feedback">Значення занадто довге</div>
+  <div *ngIf="control.errors?.['minlength']" class="invalid-feedback">Значення занадто коротке</div>
+  <div *ngIf="control.errors?.['email']" class="invalid-feedback">Не вірний формат пошти</div>
+  <div *ngIf="control.errors?.['emailExists']" class="invalid-feedback">Ця пошта вже зайнята</div>
+  <div *ngIf="control.errors?.['pattern'] && label === 'Пароль'" class="invalid-feedback">Пароль не достатнь складний</div>
+  <div *ngIf="control.errors?.['pattern'] && label === 'Телефон'" class="invalid-feedback">Тут мають бути цифри</div>
+</div>

@@ -1,0 +1,88 @@
+<ng-container *ngIf="accountService.currentUser$ | async as user">
+  <div class="container emp-profile">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="profile-head mb-3">
+            <h5>
+              Вітаємо {{user.fullName}}!
+            </h5>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Редагувати" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="tab-content profile-tab" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>ПІБ</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{user.fullName}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Email</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{user.email}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Телефон</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{user.phoneNumber}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Дата народження</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{user.dateOfBirth  | date: 'dd.MM.yyyy'}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Стать</label>
+                </div>
+                <div class="col-md-6">
+                  <p>{{user.userGenderCode}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="nav nav-tabs" >
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'orders'" (click)="activeTab = 'orders'" style="cursor: pointer;">Замовлення</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'favorites'" (click)="activeTab = 'favorites'" style="cursor: pointer;">Обрані книги</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'reviews'" (click)="activeTab = 'reviews'" style="cursor: pointer;">Відгуки</a>
+        </li>
+      </ul>
+
+      <ng-container *ngIf="activeTab === 'orders'">
+        <app-user-orders></app-user-orders>
+      </ng-container>
+
+      <ng-container *ngIf="activeTab === 'favorites'">
+        <app-user-choosenbooks></app-user-choosenbooks>
+      </ng-container>
+
+      <ng-container *ngIf="activeTab === 'reviews'">
+        <app-user-reviews></app-user-reviews>
+      </ng-container>
+
+  </div>
+</ng-container>

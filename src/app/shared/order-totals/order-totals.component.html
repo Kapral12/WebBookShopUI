@@ -1,0 +1,28 @@
+<div class="summary">
+  <div class="title">
+    <div class="row">
+        <div class="col"><h4><b>У кінцевому підсумку</b></h4></div>
+    </div>
+ </div>
+
+  <div class="p-4">
+    <p class="fst-italic">
+      Вартість доставки буде розраховано на основі вибору, зробленого під час оформлення замовлення
+    </p>
+    <ul class="list-instyled mb-3" *ngIf="(basketService.basketTotalSource$ | async) as totals">
+      <li class="d-flex justify-content-between py-3 border-bottom">
+        <strong class="text-muted">Проміжний підсумок замовлення</strong>
+        <strong>{{totals.subtotal}} ₴</strong>
+      </li>
+      <li class="d-flex justify-content-between py-3 border-bottom">
+        <strong class="text-muted">Доставка та обробка</strong>
+        <strong>{{totals.shipping}} ₴</strong>
+      </li>
+      <li class="d-flex justify-content-between py-3 border-bottom">
+        <strong class="text-muted">Всього</strong>
+        <strong>{{totals.total}} ₴</strong>
+      </li>
+    </ul>
+  </div>
+</div>
+

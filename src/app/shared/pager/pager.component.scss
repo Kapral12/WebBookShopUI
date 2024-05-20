@@ -1,0 +1,17 @@
+.my-pagination::ng-deep .page-item.active .page-link {
+  background-color:#dbb695 !important;
+  border-color: black;
+}
+
+.my-pagination::ng-deep .page-link {
+  background-color: #efeee8;
+  border-color: grey;
+  color: #fff;
+  color: black;
+}
+
+.my-pagination::ng-deep .page-link:hover {
+  background-color: #dbb695;
+  border-color: #dbb695;
+  color: #fff;
+}

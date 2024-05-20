@@ -1,0 +1,26 @@
+.table-container {
+  overflow-x: auto;
+}
+
+.content-scroll {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.book-item {
+  display: inline-block;
+  white-space: normal;
+  margin-right: 10px;
+  vertical-align: top;
+}
+
+.book-title {
+  margin-right: 5px;
+  max-width: 230px;
+}
+
+.book-image {
+  max-height: 80px;
+  max-width: 35px;
+}
+

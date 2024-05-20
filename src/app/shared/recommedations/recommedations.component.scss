@@ -1,0 +1,41 @@
+mat-form-field {
+  width: 100%;
+}
+
+
+input[type="text"] {
+
+  background-color : #efeee8;
+}
+
+.form-control:focus {
+  border-color: #dbb695;
+  box-shadow: 0 0 0 0.1rem #dbb695;
+}
+
+select{
+  border-color: #dbb695;
+  background-color : #efeee8;
+}
+
+select:focus{
+  border-color: #dbb695;
+  box-shadow: 0 0 0 0.1rem #dbb695;
+}
+
+.row .books-slider{
+  flex:1 1 42rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.row .books-slider a img{
+  height: 15rem;
+  box-shadow: 10px 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.row .books-slider a:hover img{
+  transform: scale(.9);
+}
+
+

@@ -1,0 +1,56 @@
+<header class="container d-flex flex-row align-items-center justify-content-between p-3 border-bottom fixed-top header_menu">
+<img src="/assets/images/bookstoreLogo.png" alt="logo" class="logo" style="max-height: 70px" routerLink="/">
+    <nav class="my-2">
+      <a class="p-2 a_menu hover-underline-animation"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        >Головна</a>
+      <a class="p-2 a_menu hover-underline-animation" routerLink="/shop" routerLinkActive="active">Каталог</a>
+      <!-- <a class="p-2 a_menu hover-underline-animation" routerLink="/test-error" routerLinkActive="active">Errors</a> -->
+    </nav>
+    <div class="d-flex align-items-center">
+      <a routerLink="/basket" class="position-relative">
+        <i class="fa fa-shopping-cart fa-2x me-5 text-dark"></i>
+        <div *ngIf="(basketService.basketSource$ | async) as basket" class="cart-no">
+          {{getCount(basket.items)}}
+        </div>
+      </a>
+
+      <ng-container *ngIf="(accountService.currentUser$ | async) === null">
+        <a routerLink="/account/login" class="btn btn-outline-secondary me-2">Увійти</a>
+        <a routerLink="/account/register" class="btn btn-outline-secondary me-2">Реєстрація</a>
+      </ng-container>
+
+      <ng-container *ngIf="accountService.currentUser$ | async as user">
+        <div class="dropdown ms-3 me-5" style="cursor: pointer;" dropdown>
+          <a dropdownToggle class="dropdown-toggle">
+            <strong>Вітаю {{user.fullName}}</strong>
+          </a>
+          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
+            <li class="py-1" *ngIf="user.role === 'Admin'">
+              <a routerLink="/admin-panel" class="dropdown-item">
+                <i class="fa fa-table me-3"> Адмін-панель</i>
+              </a>
+            </li>
+            <li class="py-1">
+              <a routerLink="/basket" class="dropdown-item">
+                <i class="fa fa-shopping-cart me-3"> Кошик</i>
+              </a>
+            </li>
+            <li class="py-1">
+              <a routerLink="/user-profile/{{user.id}}" class="dropdown-item">
+                <i class="fa fa-history me-3"> Профіль</i>
+              </a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="py-1">
+              <a (click)="accountService.logout()" class="dropdown-item">
+                <i class="fa fa-sign-out me-3"> Вийти</i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+    </div>
+</header>

@@ -1,0 +1,186 @@
+<div class="app">
+  <aside class="sidebar">
+    <app-admin-sidebar></app-admin-sidebar>
+  </aside>
+  <div class="container" style="margin-left: 10px;">
+    <div class="row">
+      <div class="col-3">
+        <p>Користувачі | Обрати всіх <input type="checkbox" class="custom-control-input" id="customCheck1" checked></p>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Додати</th>
+              <th scope="col">E-mail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                  <label class="custom-control-label" for="customCheck1"></label>
+                </div>
+              </td>
+              <td (click)="selectUser(user)" style="cursor: pointer;">{{user.email}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-center" *ngIf="userTotalCount > 0">
+          <app-pager [totalCount]="userTotalCount" [pageSize]="userParam.pageSize"
+            (pageChanged)="onPageChanged($event)"></app-pager>
+        </div>
+
+
+        <div class="col-3" *ngIf="selectedUser">
+          <p>Обраний користувач</p>
+          <table class="table table-bordered table-vertical">
+            <tbody>
+              <tr>
+                <th scope="row">ІД</th>
+                <td>{{ selectedUser.id }}</td>
+              </tr>
+              <tr>
+                <th scope="row">ПІБ</th>
+                <td>{{ selectedUser.fullName }}</td>
+              </tr>
+              <tr>
+                <th scope="row">E-mail</th>
+                <td>{{ selectedUser.email }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Дата народження</th>
+                <td>{{ selectedUser.dateOfBirth | date: 'dd.MM.yyyy' }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Номер телефону</th>
+                <td>{{ selectedUser.phoneNumber }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Стать</th>
+                <td>{{ selectedUser.userGenderCode }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+      <div class="col-9">
+        <div class="d-flex justify-content-start align-items-center">
+          <div style="margin-right: 10px;">
+            <p style="margin-bottom: 0;">Книги</p>
+          </div>
+          <div class="input-group">
+            <input class="form-control rounded-pill" type="text" placeholder="Пошук" #search>
+            <button class="btn btn-outline-secondary rounded-pill" type="button">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-start align-items-center mt-2 mb-2">
+          <span style="margin-right: 5px;">Від</span>
+          <input type="date" [(ngModel)]="bookParam.MinUploadDate" (change)="onDateChange()" />
+          <span style="margin-right: 5px; margin-left: 5px;">до</span>
+          <input type="date" [(ngModel)]="bookParam.MaxUploadDate" (change)="onDateChange()" />
+        </div>
+
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Додати</th>
+              <th scope="col">Назва</th>
+              <th scope="col">Автор</th>
+              <th scope="col">Рейтинг</th>
+              <th scope="col">Дата завантаження</th>
+              <th scope="col">Ціна</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let book of books">
+              <td>
+                <div class="custom-control">
+                  <button [disabled]="isBookInSendRecom(book)" (click)="addToSendRecom(book)">Додати</button>
+                </div>
+              </td>
+              <td>{{book.title}}</td>
+              <td>{{book.authors}}</td>
+              <td>{{book.rating}}</td>
+              <td>{{book.uploadedInfo | date: 'dd.MM.yyyy'}}</td>
+              <td>{{book.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center" *ngIf="bookTotalCount > 0">
+          <app-pager [totalCount]="bookTotalCount" [pageSize]="bookParam.pageSize"
+            (pageChanged)="onPageChangedBook($event)"></app-pager>
+        </div>
+
+        <p *ngIf="recomendTotal > 0">Рекомендації | Розсилка на основі рекомендацій <input type="checkbox"
+            class="custom-control-input" id="customCheck1" checked></p>
+        <table *ngIf="recomendTotal > 0" class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Назва</th>
+              <th scope="col">Автор</th>
+              <th scope="col">Рейтинг</th>
+              <th scope="col">Дата загрузки</th>
+              <th scope="col">Ціна</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let recomend of recommedantions">
+              <td>{{recomend.title}}</td>
+              <td>{{recomend.authors}}</td>
+              <td>{{recomend.rating}}</td>
+              <td>{{recomend.uploadedInfo | date: 'dd.MM.yyyy'}}</td>
+              <td>{{recomend.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-center" *ngIf="recomendTotal > 0">
+          <app-pager [totalCount]="recomendTotal" [pageSize]="recomendParams.pageSize"
+            (pageChanged)="onPageChangedRecomend($event)"></app-pager>
+        </div>
+
+        <p>Відправлення</p>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Назва</th>
+              <th scope="col">Автор</th>
+              <th scope="col">Рейтинг</th>
+              <th scope="col">Дата загрузки</th>
+              <th scope="col">Ціна</th>
+              <th scope="col">Видалити</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sendRe of sendRecom">
+              <td>{{sendRe.title}}</td>
+              <td>{{sendRe.authors}}</td>
+              <td>{{sendRe.rating}}</td>
+              <td>{{sendRe.uploadedInfo | date: 'dd.MM.yyyy'}}</td>
+              <td>{{sendRe.price}}</td>
+              <td style="text-align: center;">
+                <span (click)="removeBookFromSendRecom(sendRe)" class="close"
+                  style="font-size: 1em; cursor: pointer; display: flex; justify-content: center;">&#10005;</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="container">
+          <div class="row">
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Повідомлення</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              <button (click)="sendRecommedantions()">Відправити</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

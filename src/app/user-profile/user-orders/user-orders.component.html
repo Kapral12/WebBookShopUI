@@ -1,0 +1,46 @@
+
+
+<div class="table-container">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">ПІБ</th>
+        <th scope="col">Пошта</th>
+        <th scope="col">Телефон</th>
+        <th scope="col">Зміст</th>
+        <th scope="col">Доставка</th>
+        <th scope="col">Сума</th>
+        <th scope="col">Статус замовлення</th>
+        <th scope="col">Дії</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.contactEmail }}</td>
+        <td>{{ order.contactName }}</td>
+        <td>{{ order.contactPhone }}</td>
+        <td>
+          <div class="content-scroll">
+            <div *ngFor="let item of order.orderItem" class="book-item">
+              <img [src]="item.book.imageURL" alt="{{ item.book.title }}" class="book-image" />
+              <div class="book-title">{{ item.book.title }}, x{{item.amount}}, {{item.price}}₴</div>
+            </div>
+          </div>
+        </td>
+        <td>{{ order.delivery.name }}</td>
+        <td>{{ order.sum }} ₴</td>
+        <td>{{ order.orderStatus.name }}</td>
+        <td>
+          <button type="button" class="btn btn-danger" [disabled]="order.orderStatus.id > 1"
+            (click)="changeOrderStatus(order.id)">
+            Скасувати
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center" *ngIf="orderTotalCount > 0">
+    <app-pager [totalCount]="orderTotalCount" [pageSize]="userParam.pageSize"
+      (pageChanged)="onPageChangedOrder($event)"></app-pager>
+  </div>
+</div>

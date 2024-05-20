@@ -1,0 +1,220 @@
+<div class="container" >
+  <div class="row">
+    <section class="col-9 mt-4">
+      <div class="d-flex justify-content-between align-items center pb-2">
+        <app-paging-header
+          [totalCount]="totalCount"
+          [pageNumber]="shopParams.pageNumber"
+          [pageSize]="shopParams.pageSize"
+          ></app-paging-header>
+        <div class="input-group">
+          <input (keyup.enter)="onSearch()" class="form-control border-end-0 border rounded-pill" type="text" placeholder="Пошук" #search>
+            <button (click)="onSearch()" class="btn btn-outline-secondary border rounded-pill ms-n3" type="button">
+              <i class="fa fa-search"></i>
+            </button>
+            <button (click)="onReset()" class="btn btn-outline-secondary border-start-0 border rounded-pill ms-n3" type="button">
+              <i class="fa fa-rotate-right"></i>
+            </button>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-4">
+        <div class="col" *ngFor="let book of books">
+          <app-books-item [book]="book"></app-books-item>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+        <app-pager
+          [totalCount]="totalCount"
+          [pageSize]="shopParams.pageSize"
+          (pageChanged)="onPageChanged($event)"
+        ></app-pager>
+      </div>
+    </section>
+
+    <section class="col-3 mt-4">
+      <h5 class="ms-3">Сортування</h5>
+      <select class="form-select mb-4" (change)="onSortSelected($event)">
+        <option *ngFor="let sort of sortOptions"
+            [value]="sort.value">
+            {{sort.name}}
+        </option>
+      </select>
+
+      <mat-form-field>
+        <mat-label>Жанри</mat-label>
+        <mat-select [formControl]="selectedIdGenres" multiple (selectionChange)="onGenresSelected(selectedIdGenres.value)">
+          <mat-select-trigger>
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let genre of idsToGenres(selectedIdGenres.value)" [removable]="true" (removed)="onGenreRemoved(genre.id)">
+                {{ genre.name }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-listbox>
+          </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="searchCtrl" placeholderLabel="Пошук"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let genre of genres | filter: searchCtrl.value: 'name'" [value]="genre.id">
+            {{genre.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <!-- {{selectedIdGenres.value | json}} -->
+
+      <mat-form-field>
+        <mat-label>Автори</mat-label>
+        <mat-select [formControl]="selectedIdAuthors" multiple (selectionChange)="onAuthorsSelected(selectedIdAuthors.value)">
+          <mat-select-trigger>
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let author of idsToAuthors(selectedIdAuthors.value)" [removable]="true" (removed)="onAuthorRemoved(author.id)">
+                {{ author.fullName }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-listbox>
+          </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="authorSearchCtrl" placeholderLabel="Пошук"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let author of authors | filter: authorSearchCtrl.value: 'fullName'" [value]="author.id">
+            {{author.fullName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <!-- {{selectedIdAuthors.value | json}} -->
+
+      <mat-form-field>
+        <mat-label>Серії книг</mat-label>
+        <mat-select [formControl]="selectedIdBookSeries" multiple (selectionChange)="onBookSeriesSelected(selectedIdBookSeries.value)">
+          <mat-select-trigger>
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let bookseries of idsToBookSeries(selectedIdBookSeries.value)" [removable]="true" (removed)="onBookSeriesRemoved(bookseries.id)">
+                {{ bookseries.name }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-listbox>
+          </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="bookSeriesSearchCtrl" placeholderLabel="Пошук"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let bookserie of bookseries | filter: bookSeriesSearchCtrl.value: 'name'" [value]="bookserie.id">
+            {{bookserie.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <!-- {{selectedIdBookSeries.value | json}} -->
+
+      <mat-form-field>
+        <mat-label>Видавництва</mat-label>
+        <mat-select [formControl]="selectedIdPublishers" multiple (selectionChange)="onPublisherSelected(selectedIdPublishers.value)">
+          <mat-select-trigger>
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let publisher of idsToPublishers(selectedIdPublishers.value)" [removable]="true" (removed)="onPublisherRemoved(publisher.id)">
+                {{ publisher.name }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-listbox>
+          </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="publisherSearchCtrl" placeholderLabel="Пошук"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let publisher of publishers | filter: publisherSearchCtrl.value: 'name'" [value]="publisher.id">
+            {{publisher.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <!-- {{selectedIdPublishers.value | json}} -->
+
+      <h5 class="ms-3">Виключення</h5>
+
+      <mat-form-field>
+        <mat-label>Серії книг</mat-label>
+        <mat-select [formControl]="selectedIdBookSeriesExcept" multiple (selectionChange)="onBookSeriesSelectedExcept(selectedIdBookSeriesExcept.value)">
+          <mat-select-trigger>
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let bookseries of idsToBookSeriesExcept(selectedIdBookSeriesExcept.value)" [removable]="true" (removed)="onBookSeriesRemovedExcept(bookseries.id)">
+                {{ bookseries.name }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-listbox>
+          </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="bookSeriesSearchCtrlExcept" placeholderLabel="Пошук"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let bookserie of bookseries | filter: bookSeriesSearchCtrlExcept.value: 'name'" [value]="bookserie.id">
+            {{bookserie.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <mat-label>Видавництва</mat-label>
+        <mat-select [formControl]="selectedIdPublishersExcept" multiple (selectionChange)="onPublisherSelectedExcept(selectedIdPublishersExcept.value)">
+          <mat-select-trigger>
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let publisher of idsToPublishersExcept(selectedIdPublishersExcept.value)" [removable]="true" (removed)="onPublisherRemovedExcept(publisher.id)">
+                {{ publisher.name }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-listbox>
+          </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="publisherSearchCtrlExcept" placeholderLabel="Пошук"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let publisher of publishers | filter: publisherSearchCtrlExcept.value: 'name'" [value]="publisher.id">
+            {{publisher.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <mat-label>Жанри</mat-label>
+        <mat-select [formControl]="selectedIdGenresExcept" multiple (selectionChange)="onGenresSelectedExcept(selectedIdGenresExcept.value)">
+          <mat-select-trigger>
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let genre of idsToGenresExcept(selectedIdGenresExcept.value)" [removable]="true" (removed)="onGenreRemovedExcept(genre.id)">
+                {{ genre.name }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-listbox>
+          </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="searchCtrlExcept" placeholderLabel="Пошук"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let genre of genres | filter: searchCtrlExcept.value: 'name'" [value]="genre.id">
+            {{genre.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <mat-label>Автори</mat-label>
+        <mat-select [formControl]="selectedIdAuthorsExcept" multiple (selectionChange)="onAuthorsSelectedExcept(selectedIdAuthorsExcept.value)">
+          <mat-select-trigger>
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let author of idsToAuthorsExcept(selectedIdAuthorsExcept.value)" [removable]="true" (removed)="onAuthorRemovedExcept(author.id)">
+                {{ author.fullName }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-listbox>
+          </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="authorSearchCtrlExcept" placeholderLabel="Пошук"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let author of authors | filter: authorSearchCtrlExcept.value: 'fullName'" [value]="author.id">
+            {{author.fullName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+
+    </section>
+    <app-recommedations></app-recommedations>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="mt-4" *ngIf="checkoutForm" [formGroup]="checkoutForm">
+  <div class="row" formGroupName="deliveryForm">
+    <div class="col-6 form-group" *ngFor="let method of deliveryMethods">
+      <input type="radio"
+            class="form-check-input"
+            value="{{method.id}}"
+            id="{{method.id}}"
+            formControlName="deliveryMethod"
+            style="cursor: pointer;"
+            [checked]="method.id === 1"
+            (click)="setShippingPrice(method)">
+
+            <label for="{{method.id}}" class="form-check-label ms-2 mb-3">
+              <strong>{{method.name}} - {{method.price}}</strong>
+              <br>
+              <span class="label-description">{{method.description}}</span>
+            </label>
+    </div>
+    <div class="form-group mt-3 mb-3" *ngIf="checkoutForm?.get('deliveryForm.deliveryMethod')?.value !== '1' && checkoutForm?.get('deliveryForm.deliveryMethod')?.value">
+      <app-text-input label="Адреса доставки" formControlName="address"></app-text-input>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-between flex-row mb-5">
+  <button class="btn btn-outline-primary" cdkStepperPrevious>
+    <i class="fa fa-angle-left"></i> Назад до контактний даних
+  </button>
+  <button class="btn btn-primary" cdkStepperNext>
+    Перейти до перевірки <i class="fa fa-angle-right"></i>
+  </button>
+</div>

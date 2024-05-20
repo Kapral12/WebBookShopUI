@@ -1,0 +1,40 @@
+<ng-container *ngIf="(basketService.basketSource$ | async) as basket">
+  <div class="card">
+    <div class="row">
+      <app-basket-summary
+          (addItem)="incrementQuantity($event)"
+          (removeItem)="removeitem($event)"
+      ></app-basket-summary>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="col-md cart">
+       <app-order-totals></app-order-totals>
+        <a routerLink="/checkout" class="btn">
+          Перейти до оформлення замовлення
+        </a>
+      </div>
+    </div>
+  </div>
+
+</ng-container>
+
+<div  *ngIf="(basketService.basketSource$ | async) === null" class="container-fluid  mt-100">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body cart">
+          <div class="col-sm-12 empty-cart-cls text-center">
+            <img src="/assets/images/empty_basket.jpg" width="130" height="130" class="img-fluid mb-4 mr-3">
+            <h3><strong>На жаль ваш кошик порожній :(</strong></h3>
+            <h4> Але ви завжди можете щось додати, тож не зволікайте! ヽ(°□° )ノ</h4>
+            <div class="back-to-shop"><a routerLink="/shop" style="text-decoration: none;">&leftarrow; <span class="text-muted">Повернутися до покупок</span></a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

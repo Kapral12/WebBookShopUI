@@ -1,0 +1,25 @@
+<section class="page_container home">
+  <div class="row">
+    <div class="content">
+      <h3>Нові книги</h3>
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quibusdam exercitationem iusto quia neque natus libero esse deserunt incidunt
+        cumque id laudantium obcaecati explicabo nobis et eum praesentium, voluptas doloribus ratione.</p>
+        <a routerLink="/shop" class="btn">За книгами!</a>
+    </div>
+
+    <div class="books-slider">
+    <carousel [itemsPerSlide]="itemsPerSlide"
+          [singleSlideOffset]="singleSlideOffset"
+          [startFromIndex]="6"
+          [interval]="0">
+      <slide *ngFor="let slide of slides; let index=index">
+        <a href="" class="slide"><img [src]="slide.image" alt="image slide"></a>
+      </slide>
+    </carousel>
+      <img src="/assets/images/stand.png" class="stand" alt="">
+    </div>
+  </div>
+</section>
+
+
+
